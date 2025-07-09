@@ -12,25 +12,25 @@
       
       // Remove other common extension attributes
       const extensionAttributes = [
+      // Remove common extension and third-party service attributes
+      const problematicAttributes = [
+        // Grammarly
         'data-new-gr-c-s-check-loaded',
         'data-gr-ext-installed',
         'data-new-gr-c-s-loaded',
-        'spellcheck',
         'data-gramm',
         'data-gramm_editor',
-        'data-enable-grammarly'
+        'data-enable-grammarly',
+        // Clerk (if any remnants exist)
+        'data-clerk-hydrated',
+        'data-clerk-publishable-key',
+        // Other common problematic attributes
+        'spellcheck',
+        'data-ms-editor',
+        'data-lt-installed'
       ];
       
-      extensionAttributes.forEach(attr => {
-        if (body.hasAttribute(attr)) {
-          body.removeAttribute(attr);
-        }
-      });
-      
-      // Remove any attributes that look like extension IDs
-      Array.from(body.attributes).forEach(attr => {
-        if (attr.name.includes('__processed_') || 
-            attr.name.includes('data-') && attr.name.length > 20) {
+      problematicAttributes.forEach(attr => {
           body.removeAttribute(attr.name);
         }
       });
