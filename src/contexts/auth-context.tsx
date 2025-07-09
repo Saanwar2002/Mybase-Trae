@@ -9,9 +9,9 @@ import { auth, db } from '@/lib/firebase';
 import { onAuthStateChanged, User as FirebaseUser, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { doc, getDoc, Timestamp } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
-export type UserRole = 'passenger' | 'driver' | 'operator' | 'admin';
 
-export interface User {
+// Hydration safety flag
+const isClient = typeof window !== 'undefined';
   id: string; 
   email: string;
   name: string;
