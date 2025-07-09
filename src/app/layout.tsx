@@ -24,10 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+      <head>
+        <script src="/chunk-error-handler.js"></script>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#000000" />
-      </head>
-      <body className={ptSans.className}> {/* Apply PT Sans class */}
       <body className={ptSans.className}>
         <ErrorBoundary>
           <AuthProvider>
