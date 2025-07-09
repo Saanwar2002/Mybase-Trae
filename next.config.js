@@ -13,15 +13,15 @@ const nextConfig = {
     return config;
   },
   
-  // Optimize chunk splitting and reduce bundle size
+  // Optimize chunk splitting
   experimental: {
     optimizePackageImports: ['@radix-ui/react-slot', '@radix-ui/react-dialog'],
   },
   
-  // Configure images
-  images: {
-    remotePatterns: [
-      {
+  // Improve hydration
+  reactStrictMode: false, // Disable strict mode to prevent double hydration
+  swcMinify: true,
+  
         protocol: 'https',
         hostname: 'placehold.co',
         port: '',
