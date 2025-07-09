@@ -4,11 +4,11 @@
 import type { ReactNode } from 'react';
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { auth, db } from '@/lib/firebase'; 
-import { onAuthStateChanged, User as FirebaseUser, signInWithEmailAndPassword, signOut } from 'firebase/auth'; 
-import { doc, getDoc, Timestamp } from 'firebase/firestore'; 
-import { useToast } from '@/hooks/use-toast'; 
-
+// Import Firebase with error handling
+import { auth, db } from '@/lib/firebase';
+import { onAuthStateChanged, User as FirebaseUser, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { doc, getDoc, Timestamp } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
 export type UserRole = 'passenger' | 'driver' | 'operator' | 'admin';
 
 export interface User {
