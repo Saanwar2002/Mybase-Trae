@@ -3,10 +3,10 @@ import type { Metadata } from "next";
 import { PT_Sans } from "next/font/google"; // Changed from Inter to PT_Sans
 import "./globals.css";
 import { AuthProvider } from "@/contexts/auth-context";
+import { AuthProvider } from "@/contexts/auth-context";
 import { ThemeInitializer } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
-
-const ptSans = PT_Sans({ // Initialize PT Sans
+import ErrorBoundary from "@/components/error-boundary";
   subsets: ["latin"],
   weight: ["400", "700"] // Include weights you need
 });
@@ -28,15 +28,15 @@ export default function RootLayout({
         <meta name="theme-color" content="#000000" />
       </head>
       <body className={ptSans.className}> {/* Apply PT Sans class */}
-        <AuthProvider>
-          <ThemeInitializer>
-            <Toaster />
-            {children}
-          </ThemeInitializer>
-        </AuthProvider>
-        <script dangerouslySetInnerHTML={{
-          __html: `if ('serviceWorker' in navigator) { window.addEventListener('load', function() { navigator.serviceWorker.register('/service-worker.js'); }); }`
-        }} />
+      <body className={ptSans.className}>
+        <ErrorBoundary>
+          <AuthProvider>
+            <ThemeInitializer>
+              <Toaster />
+              {children}
+            </ThemeInitializer>
+          </AuthProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
