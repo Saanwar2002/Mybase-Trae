@@ -3,10 +3,11 @@ import type { Metadata } from "next";
 import { PT_Sans } from "next/font/google"; // Changed from Inter to PT_Sans
 import "./globals.css";
 import { AuthProvider } from "@/contexts/auth-context";
-import { AuthProvider } from "@/contexts/auth-context";
 import { ThemeInitializer } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import ErrorBoundary from "@/components/error-boundary";
+
+const ptSans = PT_Sans({
   subsets: ["latin"],
   weight: ["400", "700"] // Include weights you need
 });
@@ -18,10 +19,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
+}: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -31,12 +29,14 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={ptSans.className} suppressHydrationWarning>
-            <ThemeInitializer>
-              <Toaster />
+        <ThemeInitializer>
+          <AuthProvider>
+            <ErrorBoundary>
               {children}
-            </ThemeInitializer>
+            </ErrorBoundary>
           </AuthProvider>
-        </ErrorBoundary>
+        </ThemeInitializer>
+        <Toaster />
       </body>
     </html>
   );

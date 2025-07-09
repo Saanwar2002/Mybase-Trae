@@ -12,7 +12,15 @@ import { useToast } from '@/hooks/use-toast';
 
 // Hydration safety flag
 const isClient = typeof window !== 'undefined';
-  id: string; 
+enum UserRole {
+  Admin = 'admin',
+  Driver = 'driver',
+  Passenger = 'passenger',
+  Operator = 'operator',
+}
+
+interface User {
+  id: string;
   email: string;
   name: string;
   role: UserRole;
@@ -25,7 +33,7 @@ const isClient = typeof window !== 'undefined';
   phoneNumber?: string | null;
   phoneVerified?: boolean;
   status?: 'Active' | 'Pending Approval' | 'Suspended';
-  phoneVerificationDeadline?: string | null; 
+  phoneVerificationDeadline?: string | null;
   acceptsPetFriendlyJobs?: boolean; 
   acceptsPlatformJobs?: boolean; 
   maxJourneyDistance?: string; 
@@ -40,12 +48,11 @@ const isClient = typeof window !== 'undefined';
   motExpiryDate?: string; 
   taxiLicenseNumber?: string;
   taxiLicenseExpiryDate?: string; 
-
   currentSessionId?: string | null;
   lastLoginAt?: string | null; 
   totalEarningsCurrentSession?: number | null; 
   totalDurationOnlineCurrentSessionSeconds?: number | null;
-  currentHourlyRate?: number | null; 
+  currentHourlyRate?: number | null;
 }
 
 interface AuthContextType {

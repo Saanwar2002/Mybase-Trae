@@ -20,8 +20,11 @@ const nextConfig = {
   
   // Improve hydration
   reactStrictMode: false, // Disable strict mode to prevent double hydration
-  swcMinify: true,
+
   
+  images: {
+    remotePatterns: [
+      {
         protocol: 'https',
         hostname: 'placehold.co',
         port: '',
