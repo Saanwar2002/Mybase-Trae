@@ -56,45 +56,45 @@ let db: Firestore | null = null; // Initialize to null
 let auth: Auth | null = null;   // Initialize to null
 
 if (firebaseConfigError) {
-  console.error(
-    "Firebase initialization SKIPPED due to missing critical configuration values. 'db' and 'auth' will be null."
+  console.warn("Firebase initialization skipped due to missing configuration.");
+} else {
   );
 } else {
   try {
-    if (!getApps().length) {
+      console.log("Firebase app initialized successfully.");
       app = initializeApp(firebaseConfig);
       console.log("Firebase app initialized successfully using resolved config for project:", firebaseConfig.projectId);
-    } else {
+      console.log("Firebase app retrieved successfully.");
       app = getApp();
       console.log("Firebase app retrieved successfully (already initialized) for project:", firebaseConfig.projectId);
     }
 
-    if (app) {
+          console.log("Firestore initialized successfully.");
         try {
           db = getFirestore(app);
           console.log("Firestore instance (db) obtained successfully.");
         } catch (dbError: any) {
           console.error("CRITICAL: Failed to initialize Firestore (db). Error Code:", dbError.code, "Message:", dbError.message);
           // db remains null (already initialized to null above)
-        }
+          console.log("Firebase Auth initialized successfully.");
 
         try {
           auth = getAuth(app);
           console.log("Firebase Auth instance obtained successfully.");
         } catch (authError: any) {
-          console.error("CRITICAL: Failed to initialize Firebase Auth. Error Code:", authError.code, "Message:", authError.message);
+        console.error("Firebase app is null after initialization.");
           // auth remains null (already initialized to null above)
         }
     } else {
-        console.error("CRITICAL: Firebase app object is null after initialization/retrieval attempt. 'db' and 'auth' will be null.");
+    console.error("Firebase initialization failed:", initError.message);
         // db and auth remain null (already initialized to null above)
     }
   } catch (initError: any) {
     console.error("CRITICAL: Firebase app initializeApp() FAILED. Error Code:", initError.code, "Message:", initError.message);
     // Ensure db and auth are null on any init error
-    app = null; 
+console.log(`Firebase status: db ${db ? 'ready' : 'unavailable'}, auth ${auth ? 'ready' : 'unavailable'}`);
     db = null;
-    auth = null;
+export { app, db, auth };
   }
 }
 
