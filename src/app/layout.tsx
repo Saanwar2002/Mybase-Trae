@@ -22,15 +22,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+  return (
     <html lang="en" suppressHydrationWarning>
       <head>
-      <head>
-        <script src="/chunk-error-handler.js"></script>
+        <script src="/chunk-error-handler.js" defer></script>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#000000" />
-      <body className={ptSans.className}>
-        <ErrorBoundary>
-          <AuthProvider>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body className={ptSans.className} suppressHydrationWarning>
             <ThemeInitializer>
               <Toaster />
               {children}
