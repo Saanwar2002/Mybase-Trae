@@ -11,7 +11,7 @@ const FALLBACK_STORAGE_BUCKET = "taxinow-vvp38.firebasestorage.app";
 const FALLBACK_MESSAGING_SENDER_ID = "679652213262";
 const FALLBACK_APP_ID = "1:679652213262:web:0217c9706165949cd5f25f";
 
-console.log("Firebase Init Script: Attempting to load Firebase configuration...");
+// Firebase configuration initialization
 
 const firebaseConfigFromEnv = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -38,16 +38,16 @@ const firebaseConfig = {
 
 const criticalConfigKeys: Array<keyof typeof firebaseConfig> = ['apiKey', 'authDomain', 'projectId'];
 let firebaseConfigError = false;
-
+// Validate critical configuration
 console.log("Firebase Init Script: Debugging resolved configuration values:");
-for (const key of criticalConfigKeys) {
+// Check critical configuration values
   const resolvedValue = firebaseConfig[key];
   
   if (!resolvedValue || resolvedValue.trim() === "") {
-    console.error(`Firebase Config FATAL ERROR: Critical key '${key}' is MISSING or EMPTY.`);
+    console.error(`Firebase Config ERROR: Critical key '${key}' is missing or empty.`);
     firebaseConfigError = true;
   } else {
-    console.log(`  OK: ${key}: Using value (Source determined by effective config logic)`);
+    // Configuration value is valid
   }
 }
 
