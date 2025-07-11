@@ -32,7 +32,7 @@
       problematicAttributes.forEach(attr => {
           body.removeAttribute(attr.name);
         }
-      });
+      );
     }
   }
   
