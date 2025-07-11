@@ -4,16 +4,15 @@
   
   // Remove problematic attributes that browser extensions add
   function cleanupExtensionAttributes() {
-    const body = document.body;
+    var body = document.body;
     if (body) {
       // Remove Grammarly attributes
       body.removeAttribute('data-new-gr-c-s-check-loaded');
       body.removeAttribute('data-gr-ext-installed');
       
       // Remove other common extension attributes
-      const extensionAttributes = [
       // Remove common extension and third-party service attributes
-      const problematicAttributes = [
+      var problematicAttributes = [
         // Grammarly
         'data-new-gr-c-s-check-loaded',
         'data-gr-ext-installed',
@@ -45,10 +44,10 @@
   }
   
   // Also run cleanup periodically to catch late-loading extensions
-  let cleanupCount = 0;
-  const maxCleanups = 5;
+  var cleanupCount = 0;
+  var maxCleanups = 5;
   
-  const intervalId = setInterval(() => {
+  var intervalId = setInterval(function() {
     cleanupExtensionAttributes();
     cleanupCount++;
     
@@ -58,7 +57,7 @@
   }, 100);
   
   // Stop cleanup after 2 seconds
-  setTimeout(() => {
+  setTimeout(function() {
     clearInterval(intervalId);
   }, 2000);
 })();

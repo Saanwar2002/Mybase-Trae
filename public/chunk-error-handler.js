@@ -3,12 +3,12 @@
   'use strict';
   
   // Track reload attempts to prevent infinite loops
-  let reloadAttempts = 0;
-  const MAX_RELOAD_ATTEMPTS = 3;
+  var reloadAttempts = 0;
+  var MAX_RELOAD_ATTEMPTS = 3;
   
   // Listen for unhandled promise rejections (chunk loading errors)
   window.addEventListener('unhandledrejection', function(event) {
-    const error = event.reason;
+    var error = event.reason;
     
     // Check if it's a chunk loading error
     if (error && (
@@ -50,7 +50,7 @@
   
   // Listen for regular errors too
   window.addEventListener('error', function(event) {
-    const error = event.error;
+    var error = event.error;
     
     if (error && (
       error.name === 'ChunkLoadError' ||
@@ -70,7 +70,7 @@
   
   function showChunkErrorMessage() {
     // Create error overlay
-    const overlay = document.createElement('div');
+    var overlay = document.createElement('div');
     overlay.style.cssText = `
       position: fixed;
       top: 0;
@@ -85,7 +85,7 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     `;
     
-    const message = document.createElement('div');
+    var message = document.createElement('div');
     message.style.cssText = `
       background: white;
       padding: 2rem;
