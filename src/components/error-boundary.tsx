@@ -26,10 +26,19 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     // Log chunk loading errors specifically
     if (error.name === 'ChunkLoadError' || error.message.includes('Loading chunk')) {
       console.error('Chunk loading error detected:', error);
-      // Attempt to reload the page after a short delay
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      // Prevent infinite reload loop by tracking attempts in sessionStorage
+      const key = 'chunkReloadAttempts';
+      let attempts = 0;
+      try {
+        attempts = parseInt(sessionStorage.getItem(key) || '0', 10);
+      } catch {}
+      if (attempts < 3) {
+        try { sessionStorage.setItem(key, String(attempts + 1)); } catch {}
+        setTimeout(() => { window.location.reload(); }, 1000);
+      } else {
+        // Show fallback UI after max attempts
+        this.setState({ hasError: true, error });
+      }
     } else {
       console.error('Error caught by boundary:', error, errorInfo);
     }

@@ -3,12 +3,12 @@ import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getFirestore, Firestore } from 'firebase/firestore';
 import { getAuth, Auth } from 'firebase/auth';
 // Fallback Firebase configuration (using user-confirmed working key for Maps as API key fallback)
-const FALLBACK_API_KEY = "AIzaSyAEnaOlXAGlkox-wpOOER7RUPhd8iWKhg4";
-const FALLBACK_AUTH_DOMAIN = "taxinow-vvp38.firebaseapp.com";
-const FALLBACK_PROJECT_ID = "taxinow-vvp38";
-const FALLBACK_STORAGE_BUCKET = "taxinow-vvp38.firebasestorage.app";
-const FALLBACK_MESSAGING_SENDER_ID = "679652213262";
-const FALLBACK_APP_ID = "1:679652213262:web:0217c9706165949cd5f25f";
+// const FALLBACK_API_KEY = "AIzaSyAEnaOlXAGlkox-wpOOER7RUPhd8iWKhg4";
+// const FALLBACK_AUTH_DOMAIN = "taxinow-vvp38.firebaseapp.com";
+// const FALLBACK_PROJECT_ID = "taxinow-vvp38";
+// const FALLBACK_STORAGE_BUCKET = "taxinow-vvp38.firebasestorage.app";
+// const FALLBACK_MESSAGING_SENDER_ID = "679652213262";
+// const FALLBACK_APP_ID = "1:679652213262:web:0217c9706165949cd5f25f";
 
 // Firebase configuration initialization
 
@@ -23,16 +23,19 @@ const firebaseConfigFromEnv = {
 
 // Helper to ensure env var is non-empty before using it over fallback
 const getEffectiveConfigValue = (envValue: string | undefined, fallbackValue: string): string => {
-  return (envValue && envValue.trim() !== "") ? envValue : fallbackValue;
+  if (!envValue || envValue.trim() === "") {
+    throw new Error("Firebase client configuration error: Required environment variable is missing. Please set all NEXT_PUBLIC_FIREBASE_* variables.");
+  }
+  return envValue;
 };
 
 const firebaseConfig = {
-  apiKey: getEffectiveConfigValue(firebaseConfigFromEnv.apiKey, FALLBACK_API_KEY),
-  authDomain: getEffectiveConfigValue(firebaseConfigFromEnv.authDomain, FALLBACK_AUTH_DOMAIN),
-  projectId: getEffectiveConfigValue(firebaseConfigFromEnv.projectId, FALLBACK_PROJECT_ID),
-  storageBucket: getEffectiveConfigValue(firebaseConfigFromEnv.storageBucket, FALLBACK_STORAGE_BUCKET),
-  messagingSenderId: getEffectiveConfigValue(firebaseConfigFromEnv.messagingSenderId, FALLBACK_MESSAGING_SENDER_ID),
-  appId: getEffectiveConfigValue(firebaseConfigFromEnv.appId, FALLBACK_APP_ID),
+  apiKey: getEffectiveConfigValue(firebaseConfigFromEnv.apiKey, ""),
+  authDomain: getEffectiveConfigValue(firebaseConfigFromEnv.authDomain, ""),
+  projectId: getEffectiveConfigValue(firebaseConfigFromEnv.projectId, ""),
+  storageBucket: getEffectiveConfigValue(firebaseConfigFromEnv.storageBucket, ""),
+  messagingSenderId: getEffectiveConfigValue(firebaseConfigFromEnv.messagingSenderId, ""),
+  appId: getEffectiveConfigValue(firebaseConfigFromEnv.appId, "")
 };
 
 const criticalConfigKeys: Array<keyof typeof firebaseConfig> = ['apiKey', 'authDomain', 'projectId'];

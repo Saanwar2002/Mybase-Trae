@@ -1,8 +1,12 @@
 
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { adminDb } from '@/lib/firebase-admin';
+
+
+import { FieldValue } from 'firebase-admin/firestore';
+
+const serverTimestamp = FieldValue.serverTimestamp;
 
 interface LocationPoint {
   address: string;
@@ -29,9 +33,24 @@ export async function POST(request: NextRequest) {
       stops 
     } = (await request.json()) as AddSavedRoutePayload;
 
-    if (!userId || !label || !pickupLocation || !dropoffLocation) {
-      return NextResponse.json({ message: 'User ID, label, pickup location, and dropoff location are required.' }, { status: 400 });
-    }
+  
+
+
+
+  if (!adminDb) {
+
+    return NextResponse.json({
+      message: 'Firebase Admin SDK not initialized.',
+      details: 'Server-side Firestore access is unavailable.',
+    }, { status: 500 });
+  }
+
+  if (!userId || !label || !pickupLocation || !dropoffLocation) {
+    return NextResponse.json({
+      message: 'Validation Error: Missing required fields.',
+      details: 'userId, label, pickupLocation, and dropoffLocation are required.',
+    }, { status: 400 });
+  }
     if (label.trim().length === 0) {
         return NextResponse.json({ message: 'Label cannot be empty.' }, { status: 400 });
     }
@@ -73,7 +92,9 @@ export async function POST(request: NextRequest) {
       createdAt: serverTimestamp(),
     };
 
-    const docRef = await addDoc(collection(db, 'savedRoutes'), newSavedRoute);
+
+
+    const docRef = await adminDb.collection('savedRoutes').add(newSavedRoute);
 
     const savedDataForResponse = {
         ...newSavedRoute,
